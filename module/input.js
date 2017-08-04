@@ -12,9 +12,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _shallowCompare = require('react/lib/shallowCompare');
+var _reactAddonsShallowCompare = require('react-addons-shallow-compare');
 
-var _shallowCompare2 = _interopRequireDefault(_shallowCompare);
+var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
 
 var _classnames = require('classnames');
 
@@ -53,7 +53,7 @@ var Input = function (_React$Component) {
     }
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Input.__proto__ || Object.getPrototypeOf(Input)).call.apply(_ref, [this].concat(args))), _this), _this.onChange = function () {
-      _this.props.onChange(_this.refs.input.value);
+      _this.props.onChange(_this.input.value);
     }, _this.onFocus = function () {
       _this.props.onFocus();
     }, _this.onBlur = function () {
@@ -62,16 +62,26 @@ var Input = function (_React$Component) {
       _this.props.onKeyPress(event);
     }, _this.onInputKeyDown = function (event) {
       // eslint-disable-line complexity
+      // Call props.onKeyDown if defined
+      // Gives the developer a little bit more control if needed
+      if (_this.props.onKeyDown) {
+        _this.props.onKeyDown(event);
+      }
+
       switch (event.which) {
         case 40:
           // DOWN
-          event.preventDefault();
-          _this.props.onNext();
+          if (!event.shiftKey) {
+            event.preventDefault();
+            _this.props.onNext();
+          }
           break;
         case 38:
           // UP
-          event.preventDefault();
-          _this.props.onPrev();
+          if (!event.shiftKey) {
+            event.preventDefault();
+            _this.props.onPrev();
+          }
           break;
         case 13:
           // ENTER
@@ -108,7 +118,7 @@ var Input = function (_React$Component) {
      * @return {Boolean} Update or not?
      */
     value: function shouldComponentUpdate(nextProps, nextState) {
-      return (0, _shallowCompare2.default)(this, nextProps, nextState);
+      return (0, _reactAddonsShallowCompare2.default)(this, nextProps, nextState);
     }
 
     /**
@@ -145,7 +155,7 @@ var Input = function (_React$Component) {
      * Focus the input
      */
     value: function focus() {
-      this.refs.input.focus();
+      this.input.focus();
     }
 
     /**
@@ -155,7 +165,7 @@ var Input = function (_React$Component) {
   }, {
     key: 'blur',
     value: function blur() {
-      this.refs.input.blur();
+      this.input.blur();
     }
 
     /**
@@ -166,13 +176,16 @@ var Input = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var attributes = (0, _filterInputAttributes2.default)(this.props),
           classes = (0, _classnames2.default)('geosuggest__input', this.props.className);
 
       return _react2.default.createElement('input', _extends({ className: classes,
-        ref: 'input',
-        type: 'text',
-        autoComplete: 'off'
+        ref: function ref(i) {
+          return _this2.input = i;
+        },
+        type: 'text'
       }, attributes, {
         value: this.props.value,
         style: this.props.style,
@@ -198,7 +211,8 @@ Input.defaultProps = {
   value: '',
   ignoreTab: false,
   onKeyDown: function onKeyDown() {},
-  onKeyPress: function onKeyPress() {}
+  onKeyPress: function onKeyPress() {},
+  autoComplete: 'off'
 };
 
 exports.default = Input;
