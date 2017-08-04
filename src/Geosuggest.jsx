@@ -251,6 +251,7 @@ class Geosuggest extends React.Component {
           placeId: suggest.place_id,
           isFixture: false,
           matchedSubstrings: suggest.matched_substrings[0],
+          type: suggest.types && suggest.types.length ? suggest.types[0] : null
         });
       }
     });
