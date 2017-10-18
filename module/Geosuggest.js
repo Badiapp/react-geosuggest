@@ -500,6 +500,10 @@ var Geosuggest = function (_React$Component) {
             lat: location.lat(),
             lng: location.lng()
           };
+          suggest.placeId = suggest.place_id;
+          suggest.label = _this4.props.getSuggestLabel(suggest);
+          suggest.matchedSubstrings = suggest.matched_substrings && suggest.matched_substrings.length ? suggest.matched_substrings[0] : null;
+          suggest.type = suggest.types && suggest.types.length ? suggest.types[0] : null;
         }
         _this4.props.onSuggestSelect(suggest);
       });
