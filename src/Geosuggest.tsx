@@ -582,7 +582,9 @@ export default class extends React.Component<IProps, IState> {
         onSuggestMouseOut={this.onSuggestMouseOut}
         onSuggestSelect={this.selectSuggest}
         renderSuggestItem={this.props.renderSuggestItem}
-      />
+      >
+        { this.props.children }
+      </SuggestList>
     );
 
     return (

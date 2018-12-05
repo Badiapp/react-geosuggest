@@ -2,6 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import SuggestItem from './suggest-item';
 import ISuggest from './types/suggest';
+import { userInfo } from 'os';
 
 interface IProps {
   readonly isHidden: boolean;
@@ -59,6 +60,10 @@ export default class extends React.PureComponent<IProps, {}> {
           : null
       }
     );
+
+    if (!userInfo) {
+      return (<ul className={classes} style={this.props.style}>{this.props.children}</ul>);
+    }
 
     return (
       <ul className={classes} style={this.props.style}>
