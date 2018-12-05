@@ -1,3 +1,5 @@
+import { userInfo } from 'os';
+
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -1050,6 +1052,9 @@ var default_1$2 = /** @class */ (function (_super) {
                 ? this.isHidden()
                 : null,
             _a));
+        if (!userInfo) {
+            return (react_1("ul", { className: classes, style: this.props.style }, this.props.children));
+        }
         return (react_1("ul", { className: classes, style: this.props.style }, this.props.suggests.map(function (suggest) {
             var isActive = _this.props.activeSuggest &&
                 suggest.placeId === _this.props.activeSuggest.placeId || false;
@@ -1505,7 +1510,7 @@ var default_1$3 = /** @class */ (function (_super) {
         });
         var shouldRenderLabel = this.props.label && attributes.id;
         var input = (react_1(default_1, __assign({ className: this.props.inputClassName, ref: function (i) { return (_this.input = i); }, value: this.state.userInput, doNotSubmitOnEnter: !this.state.isSuggestsHidden, ignoreTab: this.props.ignoreTab, ignoreEnter: this.props.ignoreEnter, style: this.props.style && this.props.style.input, onChange: this.onInputChange, onFocus: this.onInputFocus, onBlur: this.onInputBlur, onKeyDown: this.props.onKeyDown, onKeyPress: this.props.onKeyPress, onNext: this.onNext, onPrev: this.onPrev, onSelect: this.onSelect, onEscape: this.hideSuggests }, attributes)));
-        var suggestionsList = (react_1(default_1$2, { isHidden: this.state.isSuggestsHidden, style: this.props.style && this.props.style.suggests, suggestItemStyle: this.props.style && this.props.style.suggestItem, userInput: this.state.userInput, isHighlightMatch: Boolean(this.props.highlightMatch), suggestsClassName: this.props.suggestsClassName, suggestItemClassName: this.props.suggestItemClassName, suggests: this.state.suggests, hiddenClassName: this.props.suggestsHiddenClassName, suggestItemActiveClassName: this.props.suggestItemActiveClassName, activeSuggest: this.state.activeSuggest, onSuggestNoResults: this.onSuggestNoResults, onSuggestMouseDown: this.onSuggestMouseDown, onSuggestMouseOut: this.onSuggestMouseOut, onSuggestSelect: this.selectSuggest, renderSuggestItem: this.props.renderSuggestItem }));
+        var suggestionsList = (react_1(default_1$2, { isHidden: this.state.isSuggestsHidden, style: this.props.style && this.props.style.suggests, suggestItemStyle: this.props.style && this.props.style.suggestItem, userInput: this.state.userInput, isHighlightMatch: Boolean(this.props.highlightMatch), suggestsClassName: this.props.suggestsClassName, suggestItemClassName: this.props.suggestItemClassName, suggests: this.state.suggests, hiddenClassName: this.props.suggestsHiddenClassName, suggestItemActiveClassName: this.props.suggestItemActiveClassName, activeSuggest: this.state.activeSuggest, onSuggestNoResults: this.onSuggestNoResults, onSuggestMouseDown: this.onSuggestMouseDown, onSuggestMouseOut: this.onSuggestMouseOut, onSuggestSelect: this.selectSuggest, renderSuggestItem: this.props.renderSuggestItem }, this.props.children));
         return (react_1("div", { className: classes },
             react_1("div", { className: "geosuggest__input-wrapper" },
                 shouldRenderLabel && (react_1("label", { className: "geosuggest__label", htmlFor: attributes.id }, this.props.label)),
