@@ -61,7 +61,7 @@ export default class extends React.PureComponent<IProps, {}> {
       }
     );
 
-    if (!userInfo) {
+    if (!this.props.userInput) {
       return (<ul className={classes} style={this.props.style}>{this.props.children}</ul>);
     }
 
