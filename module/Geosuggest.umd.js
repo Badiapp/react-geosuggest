@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('os')) :
-    typeof define === 'function' && define.amd ? define(['os'], factory) :
-    (global.Geosuggest = factory(global.os));
-}(this, (function (os) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.Geosuggest = factory());
+}(this, (function () { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -698,6 +698,8 @@
      */
     var defaults = {
         autoActivateFirstSuggest: false,
+        children: undefined,
+        defaultsHidden: true,
         disabled: false,
         fixtures: [],
         getSuggestLabel: function (suggest) { return suggest.description; },
@@ -1032,6 +1034,9 @@
          * Whether or not it is hidden
          */
         default_1.prototype.isHidden = function () {
+            if (this.props.children) {
+                return this.props.isHidden;
+            }
             return this.props.isHidden || this.props.suggests.length === 0;
         };
         /**
@@ -1056,7 +1061,7 @@
                     ? this.isHidden()
                     : null,
                 _a));
-            if (!os.userInfo) {
+            if (!this.props.userInput && !!this.props.children) {
                 return (react_1("ul", { className: classes, style: this.props.style }, this.props.children));
             }
             return (react_1("ul", { className: classes, style: this.props.style }, this.props.suggests.map(function (suggest) {
@@ -1107,11 +1112,15 @@
              * The input component
              */
             _this.input = null;
+            var isSuggestsHidden = true;
+            if (!!props.children && !props.defaultsHidden) {
+                isSuggestsHidden = false;
+            }
             _this.state = {
                 activeSuggest: null,
                 ignoreBlur: false,
                 isLoading: false,
-                isSuggestsHidden: true,
+                isSuggestsHidden: isSuggestsHidden,
                 suggests: [],
                 userInput: props.initialValue || ''
             };

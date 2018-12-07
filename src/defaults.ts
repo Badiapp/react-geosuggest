@@ -5,6 +5,8 @@
  */
 export default {
   autoActivateFirstSuggest: false,
+  children: undefined,
+  defaultsHidden: true,
   disabled: false,
   fixtures: [],
   getSuggestLabel: (suggest: any) => suggest.description,
@@ -20,6 +22,4 @@ export default {
   queryDelay: 250,
   skipSuggest: () => false,
   style: {},
-  defaultsHidden: true,
-  children: undefined,
 };

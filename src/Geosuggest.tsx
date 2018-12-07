@@ -78,7 +78,9 @@ export default class extends React.Component<IProps, IState> {
     super(props);
     let isSuggestsHidden = true;
 
-    if (!!props.children && !props.defaultsHidden) isSuggestsHidden = false;
+    if (!!props.children && !props.defaultsHidden) {
+      isSuggestsHidden = false;
+    }
 
     this.state = {
       activeSuggest: null,

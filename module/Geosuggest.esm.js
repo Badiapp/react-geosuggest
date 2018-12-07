@@ -1,5 +1,3 @@
-import { userInfo } from 'os';
-
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -694,6 +692,8 @@ var lodash_debounce = debounce;
  */
 var defaults = {
     autoActivateFirstSuggest: false,
+    children: undefined,
+    defaultsHidden: true,
     disabled: false,
     fixtures: [],
     getSuggestLabel: function (suggest) { return suggest.description; },
@@ -1028,6 +1028,9 @@ var default_1$2 = /** @class */ (function (_super) {
      * Whether or not it is hidden
      */
     default_1.prototype.isHidden = function () {
+        if (this.props.children) {
+            return this.props.isHidden;
+        }
         return this.props.isHidden || this.props.suggests.length === 0;
     };
     /**
@@ -1052,7 +1055,7 @@ var default_1$2 = /** @class */ (function (_super) {
                 ? this.isHidden()
                 : null,
             _a));
-        if (!userInfo) {
+        if (!this.props.userInput && !!this.props.children) {
             return (react_1("ul", { className: classes, style: this.props.style }, this.props.children));
         }
         return (react_1("ul", { className: classes, style: this.props.style }, this.props.suggests.map(function (suggest) {
@@ -1103,11 +1106,15 @@ var default_1$3 = /** @class */ (function (_super) {
          * The input component
          */
         _this.input = null;
+        var isSuggestsHidden = true;
+        if (!!props.children && !props.defaultsHidden) {
+            isSuggestsHidden = false;
+        }
         _this.state = {
             activeSuggest: null,
             ignoreBlur: false,
             isLoading: false,
-            isSuggestsHidden: true,
+            isSuggestsHidden: isSuggestsHidden,
             suggests: [],
             userInput: props.initialValue || ''
         };
