@@ -5,6 +5,7 @@ import ISuggest from './types/suggest';
 import { userInfo } from 'os';
 
 interface IProps {
+  readonly children?: React.ReactNodeArray,
   readonly isHidden: boolean;
   readonly suggests: ISuggest[];
   readonly suggestsClassName?: string;
@@ -31,7 +32,7 @@ export default class extends React.PureComponent<IProps, {}> {
    * Whether or not it is hidden
    */
   isHidden(): boolean {
-    return this.props.isHidden || this.props.suggests.length === 0;
+    return this.props.isHidden || (!!this.props.children && this.props.suggests.length === 0);
   }
 
   /**
