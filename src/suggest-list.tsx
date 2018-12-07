@@ -32,7 +32,11 @@ export default class extends React.PureComponent<IProps, {}> {
    * Whether or not it is hidden
    */
   isHidden(): boolean {
-    return this.props.isHidden || (!!this.props.children && this.props.suggests.length === 0);
+    if (this.props.children) {
+      return this.props.isHidden;
+    }
+  
+    return this.props.isHidden || this.props.suggests.length === 0;
   }
 
   /**
@@ -62,7 +66,7 @@ export default class extends React.PureComponent<IProps, {}> {
       }
     );
 
-    if (!this.props.userInput) {
+    if (!this.props.userInput && !!this.props.children) {
       return (<ul className={classes} style={this.props.style}>{this.props.children}</ul>);
     }
 
