@@ -365,7 +365,8 @@ export default class extends React.Component<IProps, IState> {
           isFixture: false,
           label: this.props.getSuggestLabel ? this.props.getSuggestLabel(suggest) : '',
           matchedSubstrings: suggest.matched_substrings[0],
-          placeId: suggest.place_id
+          placeId: suggest.place_id,
+          type: suggest.types && suggest.types.length ? suggest.types[0] : ''
         });
       }
     });

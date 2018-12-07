@@ -1363,7 +1363,8 @@
                         isFixture: false,
                         label: _this.props.getSuggestLabel ? _this.props.getSuggestLabel(suggest) : '',
                         matchedSubstrings: suggest.matched_substrings[0],
-                        placeId: suggest.place_id
+                        placeId: suggest.place_id,
+                        type: suggest.types && suggest.types.length ? suggest.types[0] : ''
                     });
                 }
             });
