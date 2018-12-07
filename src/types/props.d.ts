@@ -1,3 +1,4 @@
+import { ReactNodeArray } from 'react';
 import IFixture from './fixture';
 import ISuggest from './suggest';
 import ILocation from './location';
@@ -48,4 +49,6 @@ export default interface IProps {
   readonly label?: string;
   readonly autoComplete?: string;
   readonly minLength?: number;
+  readonly defaultsHidden?: boolean;
+  readonly children?: ReactNodeArray,
 }
