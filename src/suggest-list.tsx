@@ -68,6 +68,10 @@ export default class extends React.PureComponent<IProps, {}> {
 
     if (!this.props.userInput && !!this.props.children) {
       const childWithProp = React.Children.map(this.props.children, (child) => {
+        if (child ===  null) {
+          return null;
+        }
+
         return React.cloneElement(child as React.ReactElement<any>, {
           onMouseDown: this.props.onSuggestMouseDown,
           onMouseOut: this.props.onSuggestMouseOut

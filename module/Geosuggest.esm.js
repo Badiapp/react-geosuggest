@@ -1059,6 +1059,9 @@ var default_1$2 = /** @class */ (function (_super) {
             _a));
         if (!this.props.userInput && !!this.props.children) {
             var childWithProp = react_3.map(this.props.children, function (child) {
+                if (child === null) {
+                    return null;
+                }
                 return react_1(child, {
                     onMouseDown: _this.props.onSuggestMouseDown,
                     onMouseOut: _this.props.onSuggestMouseOut
