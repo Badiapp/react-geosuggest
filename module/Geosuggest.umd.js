@@ -260,9 +260,11 @@
       module.exports = react_production_min;
     }
     });
-    var react_1 = react.createElement;
-    var react_2 = react.Component;
-    var react_3 = react.PureComponent;
+    var react_1 = react.cloneElement;
+    var react_2 = react.createElement;
+    var react_3 = react.Children;
+    var react_4 = react.Component;
+    var react_5 = react.PureComponent;
 
     var classnames = createCommonjsModule(function (module) {
     /*!
@@ -892,7 +894,7 @@
             var _this = this;
             var attributes = filterInputAttributes(this.props);
             var classes = classnames('geosuggest__input', this.props.className);
-            return (react_1("input", __assign({ className: classes, ref: function (i) { return (_this.input = i); }, type: "text" }, attributes, { value: this.props.value, style: this.props.style, onKeyDown: this.onInputKeyDown, onChange: this.onChange, onKeyPress: this.props.onKeyPress, onFocus: this.props.onFocus, onBlur: this.props.onBlur })));
+            return (react_2("input", __assign({ className: classes, ref: function (i) { return (_this.input = i); }, type: "text" }, attributes, { value: this.props.value, style: this.props.style, onKeyDown: this.onInputKeyDown, onChange: this.onChange, onKeyPress: this.props.onKeyPress, onFocus: this.props.onFocus, onBlur: this.props.onBlur })));
         };
         /* tslint:disable:no-empty */
         /**
@@ -913,7 +915,7 @@
             value: ''
         };
         return default_1;
-    }(react_3));
+    }(react_5));
 
     /**
      * A single Geosuggest item in the list
@@ -936,7 +938,7 @@
          * Makes a text bold
          */
         default_1.prototype.makeBold = function (element, key) {
-            return (react_1("b", { className: "geosuggest__item__matched-text", key: key }, element));
+            return (react_2("b", { className: "geosuggest__item__matched-text", key: key }, element));
         };
         /**
          * Replace matched text with the same in bold
@@ -957,7 +959,7 @@
             if (end < suggest.label.length) {
                 post = suggest.label.slice(end);
             }
-            return (react_1("span", null,
+            return (react_2("span", null,
                 pre,
                 boldPart,
                 post));
@@ -1017,10 +1019,10 @@
             else if (this.props.isHighlightMatch) {
                 content = this.formatMatchedText(this.props.userInput, suggest);
             }
-            return (react_1("li", { className: classes, ref: function (li) { return (_this.ref = li); }, style: this.props.style, onMouseDown: this.props.onMouseDown, onMouseOut: this.props.onMouseOut, onClick: this.onClick }, content));
+            return (react_2("li", { className: classes, ref: function (li) { return (_this.ref = li); }, style: this.props.style, onMouseDown: this.props.onMouseDown, onMouseOut: this.props.onMouseOut, onClick: this.onClick }, content));
         };
         return default_1;
-    }(react_3));
+    }(react_5));
 
     /**
      * The list with suggestions.
@@ -1062,16 +1064,22 @@
                     : null,
                 _a));
             if (!this.props.userInput && !!this.props.children) {
-                return (react_1("ul", { className: classes, style: this.props.style }, this.props.children));
+                var childWithProp = react_3.map(this.props.children, function (child) {
+                    return react_1(child, {
+                        onMouseDown: _this.props.onSuggestMouseDown,
+                        onMouseOut: _this.props.onSuggestMouseOut
+                    });
+                });
+                return (react_2("ul", { className: classes, style: this.props.style }, childWithProp));
             }
-            return (react_1("ul", { className: classes, style: this.props.style }, this.props.suggests.map(function (suggest) {
+            return (react_2("ul", { className: classes, style: this.props.style }, this.props.suggests.map(function (suggest) {
                 var isActive = _this.props.activeSuggest &&
                     suggest.placeId === _this.props.activeSuggest.placeId || false;
-                return (react_1(default_1$1, { key: suggest.placeId, className: suggest.className || '', userInput: _this.props.userInput, isHighlightMatch: _this.props.isHighlightMatch, suggest: suggest, style: _this.props.suggestItemStyle, suggestItemClassName: _this.props.suggestItemClassName, isActive: isActive, activeClassName: _this.props.suggestItemActiveClassName, onMouseDown: _this.props.onSuggestMouseDown, onMouseOut: _this.props.onSuggestMouseOut, onSelect: _this.props.onSuggestSelect, renderSuggestItem: _this.props.renderSuggestItem }));
+                return (react_2(default_1$1, { key: suggest.placeId, className: suggest.className || '', userInput: _this.props.userInput, isHighlightMatch: _this.props.isHighlightMatch, suggest: suggest, style: _this.props.suggestItemStyle, suggestItemClassName: _this.props.suggestItemClassName, isActive: isActive, activeClassName: _this.props.suggestItemActiveClassName, onMouseDown: _this.props.onSuggestMouseDown, onMouseOut: _this.props.onSuggestMouseOut, onSelect: _this.props.onSuggestSelect, renderSuggestItem: _this.props.renderSuggestItem }));
             })));
         };
         return default_1;
-    }(react_3));
+    }(react_5));
 
     /* global window */
     // Escapes special characters in user input for regex
@@ -1523,20 +1531,20 @@
                 'geosuggest--loading': this.state.isLoading
             });
             var shouldRenderLabel = this.props.label && attributes.id;
-            var input = (react_1(default_1, __assign({ className: this.props.inputClassName, ref: function (i) { return (_this.input = i); }, value: this.state.userInput, doNotSubmitOnEnter: !this.state.isSuggestsHidden, ignoreTab: this.props.ignoreTab, ignoreEnter: this.props.ignoreEnter, style: this.props.style && this.props.style.input, onChange: this.onInputChange, onFocus: this.onInputFocus, onBlur: this.onInputBlur, onKeyDown: this.props.onKeyDown, onKeyPress: this.props.onKeyPress, onNext: this.onNext, onPrev: this.onPrev, onSelect: this.onSelect, onEscape: this.hideSuggests }, attributes)));
-            var suggestionsList = (react_1(default_1$2, { isHidden: this.state.isSuggestsHidden, style: this.props.style && this.props.style.suggests, suggestItemStyle: this.props.style && this.props.style.suggestItem, userInput: this.state.userInput, isHighlightMatch: Boolean(this.props.highlightMatch), suggestsClassName: this.props.suggestsClassName, suggestItemClassName: this.props.suggestItemClassName, suggests: this.state.suggests, hiddenClassName: this.props.suggestsHiddenClassName, suggestItemActiveClassName: this.props.suggestItemActiveClassName, activeSuggest: this.state.activeSuggest, onSuggestNoResults: this.onSuggestNoResults, onSuggestMouseDown: this.onSuggestMouseDown, onSuggestMouseOut: this.onSuggestMouseOut, onSuggestSelect: this.selectSuggest, renderSuggestItem: this.props.renderSuggestItem }, this.props.children));
-            return (react_1("div", { className: classes },
-                react_1("div", { className: "geosuggest__input-wrapper" },
-                    shouldRenderLabel && (react_1("label", { className: "geosuggest__label", htmlFor: attributes.id }, this.props.label)),
+            var input = (react_2(default_1, __assign({ className: this.props.inputClassName, ref: function (i) { return (_this.input = i); }, value: this.state.userInput, doNotSubmitOnEnter: !this.state.isSuggestsHidden, ignoreTab: this.props.ignoreTab, ignoreEnter: this.props.ignoreEnter, style: this.props.style && this.props.style.input, onChange: this.onInputChange, onFocus: this.onInputFocus, onBlur: this.onInputBlur, onKeyDown: this.props.onKeyDown, onKeyPress: this.props.onKeyPress, onNext: this.onNext, onPrev: this.onPrev, onSelect: this.onSelect, onEscape: this.hideSuggests }, attributes)));
+            var suggestionsList = (react_2(default_1$2, { isHidden: this.state.isSuggestsHidden, style: this.props.style && this.props.style.suggests, suggestItemStyle: this.props.style && this.props.style.suggestItem, userInput: this.state.userInput, isHighlightMatch: Boolean(this.props.highlightMatch), suggestsClassName: this.props.suggestsClassName, suggestItemClassName: this.props.suggestItemClassName, suggests: this.state.suggests, hiddenClassName: this.props.suggestsHiddenClassName, suggestItemActiveClassName: this.props.suggestItemActiveClassName, activeSuggest: this.state.activeSuggest, onSuggestNoResults: this.onSuggestNoResults, onSuggestMouseDown: this.onSuggestMouseDown, onSuggestMouseOut: this.onSuggestMouseOut, onSuggestSelect: this.selectSuggest, renderSuggestItem: this.props.renderSuggestItem }, this.props.children));
+            return (react_2("div", { className: classes },
+                react_2("div", { className: "geosuggest__input-wrapper" },
+                    shouldRenderLabel && (react_2("label", { className: "geosuggest__label", htmlFor: attributes.id }, this.props.label)),
                     input),
-                react_1("div", { className: "geosuggest__suggests-wrapper" }, suggestionsList)));
+                react_2("div", { className: "geosuggest__suggests-wrapper" }, suggestionsList)));
         };
         /**
          * Default values for the properties
          */
         default_1$$1.defaultProps = defaults;
         return default_1$$1;
-    }(react_2));
+    }(react_4));
 
     return default_1$3;
 
