@@ -67,7 +67,13 @@ export default class extends React.PureComponent<IProps, {}> {
     );
 
     if (!this.props.userInput && !!this.props.children) {
-      return (<ul className={classes} style={this.props.style}>{this.props.children}</ul>);
+      const childWithProp = React.Children.map(this.props.children, (child) => {
+        return React.cloneElement(child as React.ReactElement<any>, {
+          onMouseDown: this.props.onSuggestMouseDown,
+          onMouseOut: this.props.onSuggestMouseOut
+        });
+      });
+      return (<ul className={classes} style={this.props.style}>{childWithProp}</ul>);
     }
 
     return (
