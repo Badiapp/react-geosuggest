@@ -12,7 +12,12 @@ export default {
     resolve({jsnext: true, main: true, browser: true}),
     commonjs({
       namedExports: {
-        'node_modules/react/index.js': ['createElement', 'Component', 'PureComponent']
+        'node_modules/react/index.js': [
+          'cloneElement',
+          'createElement',
+          'Children',
+          'Component',
+          'PureComponent']
       }
     }),
     replace({'process.env.NODE_ENV': JSON.stringify(env)})
