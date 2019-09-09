@@ -492,6 +492,10 @@ export default class extends React.Component<IProps, IState> {
         sessionToken: this.sessionToken
       };
 
+      if (this.props.placeDetailFields) {
+        options.fields = ['geometry', ...this.props.placeDetailFields];
+      }
+
       this.placesService.getDetails(options, (results, status) => {
         if (status === this.googleMaps.places.PlacesServiceStatus.OK) {
           const gmaps = results;
