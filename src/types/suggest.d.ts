@@ -17,4 +17,5 @@ export default interface ISuggest {
     length: number;
   };
   readonly className?: string;
+  readonly type?: string;
 }

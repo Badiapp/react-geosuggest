@@ -2,8 +2,10 @@ import * as React from 'react';
 import classnames from 'classnames';
 import SuggestItem from './suggest-item';
 import ISuggest from './types/suggest';
+import { userInfo } from 'os';
 
 interface IProps {
+  readonly children?: React.ReactNodeArray,
   readonly isHidden: boolean;
   readonly suggests: ISuggest[];
   readonly suggestsClassName?: string;
@@ -30,6 +32,10 @@ export default class extends React.PureComponent<IProps, {}> {
    * Whether or not it is hidden
    */
   isHidden(): boolean {
+    if (this.props.children) {
+      return this.props.isHidden;
+    }
+  
     return this.props.isHidden || this.props.suggests.length === 0;
   }
 
@@ -59,6 +65,20 @@ export default class extends React.PureComponent<IProps, {}> {
           : null
       }
     );
+
+    if (!this.props.userInput && !!this.props.children) {
+      const childWithProp = React.Children.map(this.props.children, (child) => {
+        if (child ===  null) {
+          return null;
+        }
+
+        return React.cloneElement(child as React.ReactElement<any>, {
+          onMouseDown: this.props.onSuggestMouseDown,
+          onMouseOut: this.props.onSuggestMouseOut
+        });
+      });
+      return (<ul className={classes} style={this.props.style}>{childWithProp}</ul>);
+    }
 
     return (
       <ul className={classes} style={this.props.style}>

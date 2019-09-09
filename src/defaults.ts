@@ -5,6 +5,8 @@
  */
 export default {
   autoActivateFirstSuggest: false,
+  children: undefined,
+  defaultsHidden: true,
   disabled: false,
   fixtures: [],
   getSuggestLabel: (suggest: any) => suggest.description,
@@ -19,5 +21,5 @@ export default {
   placeholder: 'Search places',
   queryDelay: 250,
   skipSuggest: () => false,
-  style: {}
+  style: {},
 };

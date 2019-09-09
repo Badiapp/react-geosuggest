@@ -76,12 +76,17 @@ export default class extends React.Component<IProps, IState> {
    */
   constructor(props: IProps) {
     super(props);
+    let isSuggestsHidden = true;
+
+    if (!!props.children && !props.defaultsHidden) {
+      isSuggestsHidden = false;
+    }
 
     this.state = {
       activeSuggest: null,
       ignoreBlur: false,
       isLoading: false,
-      isSuggestsHidden: true,
+      isSuggestsHidden,
       suggests: [],
       userInput: props.initialValue || ''
     };
@@ -360,7 +365,8 @@ export default class extends React.Component<IProps, IState> {
           isFixture: false,
           label: this.props.getSuggestLabel ? this.props.getSuggestLabel(suggest) : '',
           matchedSubstrings: suggest.matched_substrings[0],
-          placeId: suggest.place_id
+          placeId: suggest.place_id,
+          type: suggest.types && suggest.types.length ? suggest.types[0] : ''
         });
       }
     });
@@ -586,7 +592,9 @@ export default class extends React.Component<IProps, IState> {
         onSuggestMouseOut={this.onSuggestMouseOut}
         onSuggestSelect={this.selectSuggest}
         renderSuggestItem={this.props.renderSuggestItem}
-      />
+      >
+        { this.props.children }
+      </SuggestList>
     );
 
     return (
