@@ -51,4 +51,6 @@ export default interface IProps {
   readonly minLength?: number;
   readonly defaultsHidden?: boolean;
   readonly children?: ReactNodeArray,
+  readonly placeDetailFields?: string[] | null;
+
 }
