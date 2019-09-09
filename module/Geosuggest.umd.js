@@ -1170,8 +1170,7 @@
                 return;
             }
             var googleMaps = this.props.googleMaps ||
-                (window.google &&
-                    window.google.maps) ||
+                (window.google && window.google.maps) ||
                 this.googleMaps;
             /* istanbul ignore next */
             if (!googleMaps) {
@@ -1351,7 +1350,9 @@
                     if (maxFixtures && fixturesSearched >= maxFixtures) {
                         return;
                     }
-                    if ((skipSuggest && !skipSuggest(fixture)) && fixture.label.match(regex)) {
+                    if (skipSuggest &&
+                        !skipSuggest(fixture) &&
+                        fixture.label.match(regex)) {
                         fixturesSearched++;
                         suggests.push({
                             className: fixture.className,
@@ -1372,7 +1373,9 @@
                     suggests.push({
                         description: suggest.description,
                         isFixture: false,
-                        label: _this.props.getSuggestLabel ? _this.props.getSuggestLabel(suggest) : '',
+                        label: _this.props.getSuggestLabel
+                            ? _this.props.getSuggestLabel(suggest)
+                            : '',
                         matchedSubstrings: suggest.matched_substrings[0],
                         placeId: suggest.place_id,
                         type: suggest.types && suggest.types.length ? suggest.types[0] : ''
@@ -1392,9 +1395,11 @@
             if (suggests === void 0) { suggests = []; }
             var activeSuggest = this.state.activeSuggest;
             if (activeSuggest) {
-                var newSuggest = suggests.filter(function (listedSuggest) { return activeSuggest &&
-                    activeSuggest.placeId === listedSuggest.placeId &&
-                    activeSuggest.isFixture === listedSuggest.isFixture; })[0];
+                var newSuggest = suggests.filter(function (listedSuggest) {
+                    return activeSuggest &&
+                        activeSuggest.placeId === listedSuggest.placeId &&
+                        activeSuggest.isFixture === listedSuggest.isFixture;
+                })[0];
                 activeSuggest = newSuggest || null;
             }
             return activeSuggest;
@@ -1461,7 +1466,9 @@
             };
             this.setState({
                 isSuggestsHidden: true,
-                userInput: typeof suggest.label !== 'object' ? suggest.label : (suggest.description || '')
+                userInput: typeof suggest.label !== 'object'
+                    ? suggest.label
+                    : suggest.description || ''
             });
             if (suggest.location) {
                 this.setState({ ignoreBlur: false });
@@ -1480,11 +1487,16 @@
             if (!this.geocoder) {
                 return;
             }
-            if (suggestToGeocode.placeId && !suggestToGeocode.isFixture && this.placesService) {
+            if (suggestToGeocode.placeId &&
+                !suggestToGeocode.isFixture &&
+                this.placesService) {
                 var options = {
                     placeId: suggestToGeocode.placeId,
                     sessionToken: this.sessionToken
                 };
+                if (this.props.placeDetailFields) {
+                    options.fields = ['geometry'].concat(this.props.placeDetailFields);
+                }
                 this.placesService.getDetails(options, function (results, status) {
                     if (status === _this.googleMaps.places.PlacesServiceStatus.OK) {
                         var gmaps = results;
