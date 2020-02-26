@@ -1487,54 +1487,27 @@
             if (!this.geocoder) {
                 return;
             }
-            if (suggestToGeocode.placeId &&
-                !suggestToGeocode.isFixture &&
-                this.placesService) {
-                var options = {
-                    placeId: suggestToGeocode.placeId,
-                    sessionToken: this.sessionToken
-                };
-                if (this.props.placeDetailFields) {
-                    options.fields = ['geometry'].concat(this.props.placeDetailFields);
+            var options = {
+                address: suggestToGeocode.label,
+                bounds: this.props.bounds,
+                componentRestrictions: this.props.country
+                    ? { country: this.props.country }
+                    : undefined,
+                location: this.props.location
+            };
+            this.geocoder.geocode(options, function (results, status) {
+                if (status === _this.googleMaps.GeocoderStatus.OK) {
+                    var gmaps = results[0];
+                    var location_1 = gmaps.geometry.location;
+                    var suggest = __assign({}, suggestToGeocode, { gmaps: gmaps, location: {
+                            lat: location_1.lat(),
+                            lng: location_1.lng()
+                        } });
+                    if (_this.props.onSuggestSelect) {
+                        _this.props.onSuggestSelect(suggest);
+                    }
                 }
-                this.placesService.getDetails(options, function (results, status) {
-                    if (status === _this.googleMaps.places.PlacesServiceStatus.OK) {
-                        var gmaps = results;
-                        var location_1 = gmaps.geometry.location;
-                        var suggest = __assign({}, suggestToGeocode, { gmaps: gmaps, location: {
-                                lat: location_1.lat(),
-                                lng: location_1.lng()
-                            } });
-                        _this.sessionToken = new google.maps.places.AutocompleteSessionToken();
-                        if (_this.props.onSuggestSelect) {
-                            _this.props.onSuggestSelect(suggest);
-                        }
-                    }
-                });
-            }
-            else {
-                var options = {
-                    address: suggestToGeocode.label,
-                    bounds: this.props.bounds,
-                    componentRestrictions: this.props.country
-                        ? { country: this.props.country }
-                        : undefined,
-                    location: this.props.location
-                };
-                this.geocoder.geocode(options, function (results, status) {
-                    if (status === _this.googleMaps.GeocoderStatus.OK) {
-                        var gmaps = results[0];
-                        var location_2 = gmaps.geometry.location;
-                        var suggest = __assign({}, suggestToGeocode, { gmaps: gmaps, location: {
-                                lat: location_2.lat(),
-                                lng: location_2.lng()
-                            } });
-                        if (_this.props.onSuggestSelect) {
-                            _this.props.onSuggestSelect(suggest);
-                        }
-                    }
-                });
-            }
+            });
         };
         /**
          * Render the view
